@@ -5,6 +5,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div>{{some}}</div>
+	<div>
+		<form method="post">
+			<input type="text" name="place" placeholder="Введите место встречи" />
+			<input type="text" name="owner" placeholder="Введите автора встречи" />
+			<input type="datetime" name="date" placeholder="Ввeдите дату встречи" />
+			<button type="submit">Добавить</button>
+		</form>
+	</div>
+	<div>Список встреч</div>
+	<form method="post" action="filter">
+		<input type="text" name="filter" />
+		<button type="submit">Найти</button>
+	</form>
+	{{#meetings}}
+	<div>
+		<b>{{id}}</b>
+		<span>{{place}}</span>
+		<i>{{owner}}</i>
+		<b>{{formatedDate}}</b>
+	</div>
+	{{/meetings}}
 </body>
 </html>
