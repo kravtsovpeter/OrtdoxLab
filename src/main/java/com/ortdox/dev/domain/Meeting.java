@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * Бизнес объект встреча
  * @author pkravtsov
@@ -49,12 +51,10 @@ public class Meeting {
 	private String owner;
 	
 	/** Дата встречи */
-	@Column(name="meetingDate", columnDefinition="DATE")
+	@Column(name="meetingDate", columnDefinition="timestamp")
+	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
 	private Date date;
 	
-	@Transient
-	private String formatedDate;
-
 	/**
 	 * @return Идентификатор встречи
 	 */
@@ -113,16 +113,6 @@ public class Meeting {
 	 */
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-
-	public String getFormatedDate() {
-		return formatedDate;
-	}
-
-
-	public void setFormatedDate(String formatedDate) {
-		this.formatedDate = formatedDate;
 	}
 
 }

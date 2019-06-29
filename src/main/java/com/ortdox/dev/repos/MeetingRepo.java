@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.ortdox.dev.domain.Meeting;
 
 /**
- * Класс DAO-репозиторий для встреч
+ * DAO-репозиторий для встреч
  * @author pkravtsov
  */
 public interface MeetingRepo extends CrudRepository<Meeting, Long> {

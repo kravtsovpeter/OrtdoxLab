@@ -1,4 +1,4 @@
-package com.ortdox.dev;
+package com.ortdox.dev.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,18 +23,32 @@ import com.ortdox.dev.repos.MeetingRepo;
  * @author pkravtsov
  */
 @Controller
-public class GreetingController {
+public class MainController {
 	
 	/** DAO репозиторий встреч */
 	@Autowired
 	private MeetingRepo meetingRepo;
 
+	
+	
+	
 	/**
-	 * Вызов основной страницы localhost
+	 * Вызов корневой страницы приветствия
+	 * @param model Модель параметров
+	 * @return Отображаемыя страница
+	 */
+	@GetMapping("/")
+	public String greeting(Map<String,Object> model) {
+		return "greeting";
+	}
+	
+	
+	/**
+	 * Вызов основной страницы localhost/main
 	 * @param model Модель параметров
 	 * @return Отображаемая страница
 	 */
-    @GetMapping
+    @GetMapping("/main")
     public String main(Map<String, Object> model) {
     	Iterable<Meeting> meetings = meetingRepo.findAll();
     	model.put("meetings", formatMeetings(meetings));
@@ -49,10 +63,9 @@ public class GreetingController {
      * @param model Модель параметров
      * @return Отображаемая страница
      */
-    @PostMapping
-    public String add(@RequestParam String place, @RequestParam String owner, 
-    		@RequestParam("date") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") Date date, Map<String, Object> model) {
-    	Meeting meeting = new Meeting(place, owner, date);
+    @PostMapping("/main")
+    public String add(Meeting meeting, Map<String, Object> model) {
+    	//Meeting meeting = new Meeting(place, owner, date);
     	meetingRepo.save(meeting);
     	Iterable<Meeting> meetings = meetingRepo.findAll();
     	model.put("meetings", formatMeetings(meetings));
@@ -74,7 +87,7 @@ public class GreetingController {
     	} else {
     		meetings = meetingRepo.findAll();
     	}
-    	model.put("meetings", formatMeetings(meetings));
+    	model.put("meetings", meetings);
     	return "main";
     }
     
@@ -93,18 +106,4 @@ public class GreetingController {
       return mav;
     }
     
-    /**
-     * Форматировать список встреч(формат даты)
-     * @param meetings Список встреч
-     * @return отфармотированный список встреч
-     */
-    private Iterable<Meeting> formatMeetings(Iterable<Meeting> meetings) {
-    	for(Meeting meeting : meetings)
-    	{
-    		meeting.setFormatedDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").
-    				format(meeting.getDate()));
-    	}
-    	return meetings;
-    }
-
 }
